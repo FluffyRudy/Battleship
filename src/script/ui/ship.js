@@ -4,12 +4,15 @@ import { randint } from "../lib/random";
 export function placeShip(event, index) {
     let target = event.target;
     if (!target.classList.contains("ship-cell"))
-        return;
+        return false;
     const col = parseInt(target.dataset.col);
     const length = settings.shipLengths[index];
-    if (length + col >= settings.NCOLS)
-        return;
-    drawShip(col, length, target, index);
+    if (length + col > settings.NCOLS)
+        return false;
+    const color = settings.humanShipColor;
+    drawShip(col, length, target, index, color);
+    
+    return true;
 }
 
 export function aiShipPlacement(board) {
@@ -23,16 +26,17 @@ export function aiShipPlacement(board) {
         const shipCell = getShiptAt(board, row, col);
         if (isOverlapping(length, shipCell))
             continue;
-        drawShip(col, length, shipCell, shipIndex);
+        const color = settings.aiShipColor;
+        drawShip(col, length, shipCell, shipIndex, color);
         shipIndex++;
     }
 }
 
-function drawShip(col, length, target, index) {
+function drawShip(col, length, target, index, color) {
     for (let i = col; i < col + length; i++) {
         target.dataset.isship = '1';
         target.dataset.index = index;
-        target.style.backgroundColor = "#fff";
+        target.style.backgroundColor = color;
         target = target.nextElementSibling;
         if (target === null)
             return;
