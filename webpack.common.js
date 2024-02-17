@@ -8,7 +8,6 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Fluffy Restaurent',
-            favicon: `${__dirname}/src/assets/favicon.ico`,
             template: './src/template.html',
         })
     ],
