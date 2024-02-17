@@ -2,23 +2,41 @@ import { createBoard } from "./script/ui/gameboard";
 import { placeShip } from "./script/ui/ship";
 import { aiShipPlacement } from "./script/ui/ship";
 import { attack } from "./script/ui/player";
+import { aiAttack } from "./script/ui/player";
+import { isShipDistroyed } from "./script/ui/player";
 import settings from "./script/lib/settings";
 
 const humanBoard = createBoard();
 const aiBoard    = createBoard();
-let shipIndex    = 0; 
+let shipIndex    = 0;
+const humanActivity = { score: 0 }
+const aiActivity = {
+    prevAttackCell: null,
+    score: 0
+}
 
 document.body.appendChild(humanBoard);
 document.body.appendChild(aiBoard);
 
 humanBoard.addEventListener('click', (e) => {
-    if (shipIndex < settings.totalShip)
-        placeShip(e, shipIndex++);
-
+    if (shipIndex < settings.totalShip) {
+        if (placeShip(e, shipIndex))
+            shipIndex++;
+    }
 });
 
 aiBoard.addEventListener('click', (e) => {
-    attack(aiBoard, e);
+    if (shipIndex < settings.totalShip)
+        return;
+    if (attack(e)) {
+        isShipDistroyed(e.target, aiBoard) ? humanActivity.score++ : 0;
+        const _aiAttack = aiAttack(humanBoard, aiActivity);
+        isShipDistroyed(_aiAttack[1], humanBoard) ? aiActivity.score++ : 0;
+    }
+    if (humanActivity.score === settings.totalShip)
+        alert("Human won");
+    if (aiActivity.score === settings.totalShip)
+        alert("computer won");
 });
 
 window.onload = () => {

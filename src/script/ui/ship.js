@@ -7,11 +7,10 @@ export function placeShip(event, index) {
         return false;
     const col = parseInt(target.dataset.col);
     const length = settings.shipLengths[index];
-    if (length + col > settings.NCOLS)
+    if (length + col > settings.NCOLS || isOverlapping(length, target))
         return false;
     const color = settings.humanShipColor;
     drawShip(col, length, target, index, color);
-    
     return true;
 }
 
@@ -54,7 +53,6 @@ function isOverlapping(length, target) {
         if (!currentCell || !currentCell.dataset.col) {
             break;
         }
-
         i++;
     }
     return false;
