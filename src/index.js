@@ -26,8 +26,10 @@ humanBoard.addEventListener('click', (e) => {
 });
 
 aiBoard.addEventListener('click', (e) => {
-    if (shipIndex < settings.totalShip)
+    if (shipIndex < settings.totalShip) {
+        alert("Place ships");
         return;
+    }
     if (attack(e)) {
         isShipDistroyed(e.target, aiBoard) ? humanActivity.score++ : 0;
         const _aiAttack = aiAttack(humanBoard, aiActivity);
