@@ -14,7 +14,7 @@ This is a simple implementation of the classic Battleship game for the Odin Proj
 
 1. Clone or download the repository to your local machine.
 2. Navigate to the project directory in your terminal.
-3. Run the `battleship.js` file with Node.js: `node battleship.js`.
+3. Run the `index.js` file with Node.js: `node index.js`.
 4. Follow the prompts in the console to place your ships and guess your opponent's ship locations.
 5. Alternate turns with your opponent until one player wins the game.
 
